@@ -1,14 +1,5 @@
 # En este script vamos a importar la base de datos del Problem Set 1 de Big Data.
 
-rm(list=ls())
-library(pacman)
-library(rvest)
-library(dplyr)
-
-p_load(rvest, tidyverse, knitr, kableExtra, readxl,
-       skim, tidymodels, stargazer, broom)
-
-
 # Limpio mi espacio de trabajo
 rm(list = ls())
 
@@ -103,4 +94,7 @@ geih_clean <- geih %>%
   colSums(is.na(geih1)) # de 6650 a 837
   colSums(is.na(geih2)) # de 6650 a 0
   colSums(is.na(geih3)) # de 6650 a 0
+  
+  #Guardare los datos Paro no tener que correr el scrapping otra vez.
+  write_csv(geih_clean, "stores/geih_clean.csv")
   
