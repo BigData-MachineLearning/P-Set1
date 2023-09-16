@@ -41,10 +41,10 @@ for (i in 1:10) {
   tabla <- html_link %>% html_table() %>% as.data.frame()
   
   # Agrega los datos al dataframe final
-  GEIH <- bind_rows(dataframe_final, tabla)
+  GEIH <- bind_rows(GEIH, tabla)
 }
 
-# Ahora, dataframe_final contiene todos los datos de las 10 páginas en un solo dataframe
+# Ahora, GEIH contiene todos los datos de las 10 páginas en un solo dataframe
 
 # Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
 
