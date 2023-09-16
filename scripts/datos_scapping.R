@@ -8,48 +8,46 @@ library(dplyr)
 p_load(rvest, tidyverse, knitr, kableExtra, readxl,
        skim, tidymodels, stargazer, broom)
 
-url <- 'https://ignaciomsarmiento.github.io/GEIH2018_sample/'
 
-html <- read_html(url)
+# Limpio mi espacio de trabajo
+rm(list = ls())
 
-#Saquemos primero los labels:
+#Cargo los paquetes
+require(pacman)
+p_load(rvest, tidyverse, knitr, kableExtra, readxl,
+       skim, tidymodels, stargazer, broom)
 
-url_labels <- 'https://ignaciomsarmiento.github.io/GEIH2018_sample/labels.html'
-html_labels <- read_html(url_labels)
+tables <- list()
 
 
-#Veamos cuáles son las descripciones de la las variables:
+# Los datos de la pagina se sacan de url con un formato especifico, son tablas html
+# Con formato de 
 
-url_dict <- 'https://ignaciomsarmiento.github.io/GEIH2018_sample/dictionary.html'
-html_dict <- read_html(url_dict)
-tabla_dict <- html_dict %>% html_table()%>% as.data.frame()
-
-#Ahora si hagamos el Scrapping: 
-
-# Inicializamos un dataframe vacío para almacenar los datos
-GEIH <- data.frame()
-
-# Itera a través de las 10 páginas
+#https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/ + geih_page_ + (numero del 1-10)
+# +.html)
 
 for (i in 1:10) {
-  # Contruimos el URL que va a iterar:
-  link <- paste0("https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/geih_page_", i, ".html")
+  #hay 10 paginas
+  url_table <- read_html(paste0("https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/",
+                                "geih_page_",i,".html"))
+  #Guardo datos tabla 
+  table <- html_table(url_table)
+  tables[[i]] <- table
   
-  # Leemos la página WEB:
-  html_link <- read_html(link)
-  
-  # Raspamos la tabla de la página y la convertimos en un dataframe:
-  tabla <- html_link %>% html_table() %>% as.data.frame()
-  
-  # Agrega los datos al dataframe final
-  GEIH <- bind_rows(GEIH, tabla)
 }
 
-# Ahora, GEIH contiene todos los datos de las 10 páginas en un solo dataframe
+# Creo data frame con todo
+geih <- as.data.frame(tables[[1]])
+for (i in 2:10) {
+  geih <- rbind(geih,as.data.frame(tables[[i]]))
+}
+# Ahora, dataframe_final contiene todos los datos de las 10 páginas en un solo dataframe
+
+#Revisar obs unicas
+nrow(unique(geih[c("directorio", "secuencia_p", "orden")]))
 
 # Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
-
-geih_clean <- GEIH %>% 
+geih_clean <- geih %>% 
   filter(age>=18,ocu==1) %>% 
   select(directorio, secuencia_p, orden,age, p6050,  
          p6210, p7040, sex, estrato1, cotPension, 
@@ -62,4 +60,34 @@ geih_clean <- GEIH %>%
          firm_time = p6426)
   mutate(age2=age*age, ln_salario=log(wage))
 
-write_csv(geih_clean, "stores/geih_clean.csv")
+  #Meto en data frame
+  
+  geih_clean <- as.data.frame(geih_clean)
+  
+  #Manejo de missings
+  
+  
+  
+  # Tenemos 6650 missing en mi variable de interes
+  
+  geih1 <- geih_clean
+  geih2 <- geih_clean
+  geih3 <- geih_clean
+  # Approach 1: imputar con predict
+  
+  
+  
+  # Step 1: Dividir en datos con missing y sin missing
+  data_with_missing <- geih1[is.na(geih1$wage), ]  # Rows with missing values
+  data_without_missing <- geih1[!is.na(geih1$wage), ]  # Rows without missing values
+  
+  # Step 2: regression en sector sin missings
+  reg_1 <-  lm(wage ~ ., data = geih1 )
+  
+  
+  # Step 3: Uso el predict para predecir faltantes
+  predicted_values <- predict(reg_1, newdata = data_with_missing)
+  
+  # Step 4: imputo los predichos
+  geih1[is.na(geih1$wage), "wage"] <- predicted_values
+  
