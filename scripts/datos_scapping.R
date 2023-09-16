@@ -49,6 +49,9 @@ for (i in 1:10) {
 
 # Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
 
+#Revisar obs unicas
+nrow(unique(GEIH[c("directorio", "secuencia_p", "orden")]))
+
 GEIH_filtrado <- GEIH %>% 
   filter(age>=18,ocu==1) %>% 
   select(directorio, secuencia_p, orden,age, p6050,  
