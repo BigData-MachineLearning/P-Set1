@@ -59,5 +59,5 @@ GEIH_filtrado <- GEIH %>%
          parentesco = p6050, 
          other_job = p7040,
          firm_time = p6426)
-  mutate(age2=age*age, ln_salario=log(y_salary_m_hu))
+  mutate(age2=age*age, ln_salario=log(wage))
 
