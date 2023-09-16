@@ -49,7 +49,7 @@ for (i in 1:10) {
 
 # Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
 
-GEIH_filtrado <- GEIH %>% 
+geih_clean <- GEIH %>% 
   filter(age>=18,ocu==1) %>% 
   select(directorio, secuencia_p, orden,age, p6050,  
          p6210, p7040, sex, estrato1, cotPension, 
@@ -62,4 +62,4 @@ GEIH_filtrado <- GEIH %>%
          firm_time = p6426)
   mutate(age2=age*age, ln_salario=log(wage))
 
-write_csv(GEIH_filtrado, "stores/GEIH_filatrado.csv")
+write_csv(geih_clean, "stores/geih_clean.csv")
