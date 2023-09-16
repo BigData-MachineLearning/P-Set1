@@ -61,3 +61,4 @@ GEIH_filtrado <- GEIH %>%
          firm_time = p6426)
   mutate(age2=age*age, ln_salario=log(wage))
 
+write_csv(GEIH_filtrado, "stores/GEIH_filatrado.csv")
