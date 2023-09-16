@@ -43,11 +43,10 @@ for (i in 2:10) {
 }
 # Ahora, dataframe_final contiene todos los datos de las 10 páginas en un solo dataframe
 
-# Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
-
 #Revisar obs unicas
 nrow(unique(geih[c("directorio", "secuencia_p", "orden")]))
 
+# Filtremos el DataFrame para seleccionar únicamenta aquellas personas ocupadas y cuya edad sea mayor o igual a 18. 
 geih_clean <- geih %>% 
   filter(age>=18,ocu==1) %>% 
   select(directorio, secuencia_p, orden,age, p6050,  
@@ -61,3 +60,34 @@ geih_clean <- geih %>%
          firm_time = p6426)
   mutate(age2=age*age, ln_salario=log(wage))
 
+  #Meto en data frame
+  
+  geih_clean <- as.data.frame(geih_clean)
+  
+  #Manejo de missings
+  
+  
+  
+  # Tenemos 6650 missing en mi variable de interes
+  
+  geih1 <- geih_clean
+  geih2 <- geih_clean
+  geih3 <- geih_clean
+  # Approach 1: imputar con predict
+  
+  
+  
+  # Step 1: Dividir en datos con missing y sin missing
+  data_with_missing <- geih1[is.na(geih1$wage), ]  # Rows with missing values
+  data_without_missing <- geih1[!is.na(geih1$wage), ]  # Rows without missing values
+  
+  # Step 2: regression en sector sin missings
+  reg_1 <-  lm(wage ~ ., data = geih1 )
+  
+  
+  # Step 3: Uso el predict para predecir faltantes
+  predicted_values <- predict(reg_1, newdata = data_with_missing)
+  
+  # Step 4: imputo los predichos
+  geih1[is.na(geih1$wage), "wage"] <- predicted_values
+  
