@@ -91,3 +91,16 @@ geih_clean <- geih %>%
   # Step 4: imputo los predichos
   geih1[is.na(geih1$wage), "wage"] <- predicted_values
   
+  # Approach 2: imputar promedio
+  
+  geih2$wage[is.na(geih2$wage)] <- mean(geih2$wage, na.rm = TRUE)
+  
+  # Approach 3: imputar mediana por cola a la derecha
+  
+  geih3$wage[is.na(geih3$wage)] <- median(geih3$wage, na.rm = TRUE)
+  
+  # Revisamos el proceso 
+  colSums(is.na(geih1)) # de 6650 a 837
+  colSums(is.na(geih2)) # de 6650 a 0
+  colSums(is.na(geih3)) # de 6650 a 0
+  
