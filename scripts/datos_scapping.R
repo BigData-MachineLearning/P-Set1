@@ -5,7 +5,8 @@ library(pacman)
 library(rvest)
 library(dplyr)
 
-p_load(rvest,tidyverse,kableExtra,readxl)
+p_load(rvest, tidyverse, knitr, kableExtra, readxl,
+       skim, tidymodels, stargazer, broom)
 
 url <- 'https://ignaciomsarmiento.github.io/GEIH2018_sample/'
 
