@@ -233,3 +233,25 @@ ggsave("views/hist_firmtime.png")
 #Concentrado en tiempos cortos y picos en cada 10 años- Puede obedecer ciclos laborales
 # y contratacion estandar de contratos (1-3 años ofrecen)
 
+#Firm time vs wage
+scatt_wage_firmtime <- geih2018 |> 
+  mutate(firmtime = firm_time/12) |>
+  ggplot(aes(x = firmtime, y = lwage)) +
+  geom_point(shape=1, alpha=.5, color="#FF6666") +    # Use hollow circles
+  geom_smooth(method=lm,   # Add linear regression line
+              se=FALSE, color = "black")  + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE))+
+  xlab("Time in firm") +
+  ylab("Ln(wage)") +
+  labs(title = "Time in firm vs Ln(wage)",
+       subtitle = "in years and salary - real hourly") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+scatt_wage_firmtime
+
+ggsave("views/scatt_wage_firmtime.png")
+
+#Parece ser que sí se relacionan positivamente
