@@ -113,3 +113,29 @@ hist_hours <- ggplot(geih2018, aes(x=hoursWorkUsual)) +
 hist_hours
 
 ggsave("views/hist_hours.png")
+
+# concentracion esperada entre las 40 y 48 horas que son usuales en los contratos, 
+# con un numero no negligible cerca de las 60
+
+# Wages vs hours worked
+
+scatt_wage_hours <- ggplot(geih2018, aes(x = hoursWorkUsual, y = lwage)) +
+  geom_point(shape=1, color = "#FF6666", alpha = 0.5) +   
+  geom_smooth(method=lm,  
+              se=FALSE, colour="black") + 
+  labs(title = "Hours worked vs Ln(wages)", 
+       subtitle = "Usual weekly and salary - real hourly") +
+  ylab("Ln(wages)") +
+  xlab("Hours worked") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+scatt_wage_hours
+
+ggsave("views/scatt_wage_hours.png")
+
+# Una relacion algo similar a la de edada, al principio es ligeramente creciente pero
+# Parece que después de las 50 horas no hay mucho benefioco en temas salariares
+# Posible paradigma cuadratico
+
