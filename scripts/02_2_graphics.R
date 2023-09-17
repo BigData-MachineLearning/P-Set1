@@ -139,3 +139,26 @@ ggsave("views/scatt_wage_hours.png")
 # Parece que después de las 50 horas no hay mucho benefioco en temas salariares
 # Posible paradigma cuadratico
 
+# distribution size firms
+
+bar_firmsize <- geih2018 |> 
+  mutate(firm_size = case_when(sizeFirm == 1 ~ "Self - employed",
+                               sizeFirm == 2 ~ "2-5 workers",
+                               sizeFirm == 3 ~ "6-10 workers",
+                               sizeFirm == 4 ~ "11-50",
+                               sizeFirm == 5 ~ ">50")) |> 
+  ggplot(aes(x = sizeFirm, fill = firm_size)) + 
+  geom_histogram(binwidth = 1, color = "black") +
+  xlab("Firm Size") +
+  ylab("Number of firms") +
+  labs(title = "Firm Size distribution",
+       subtitle = "based on number of employees") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+bar_firmsize
+
+ggsave("views/bar_firmsize.png")
+
+# al ser datos de Bogota, habra sobre todo enoresas gransesm micro empresas y cuentapropias
