@@ -22,7 +22,6 @@ geih2018 <- read_csv("C:/Users/jorge_j24fcle/OneDrive/Documentos/universidad/NOV
 geih2018 <- geih2018 |>
   mutate(lwage = log(wage))
 
-
 #Corro el  modelo
 mod1 <- lm(lwage ~poly(age, 2, raw = TRUE), data = geih2018)
 
@@ -69,7 +68,7 @@ ggplot() +
               alpha = 0.3) +
   xlim(agelims) +
   labs(title = "Degree-2 Polynomial") +
-  geom_vline(xintercept=max_age$t0[[1]],linetype=2) +
+  geom_vline(xintercept=max_age$t0[[1]], linetype=2) +
   theme_bw() +
   geom_line(aes(x = age_grid, y = se_bands[,"lower"]), col = "coral2", linetype = "dashed") + #lwr pred interval
   geom_line(aes(x = age_grid,y = se_bands[,"upper"]), col = "coral2", linetype = "dashed") #upr pred interval
