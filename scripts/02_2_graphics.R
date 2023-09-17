@@ -22,3 +22,49 @@ p_load(rvest, tidyverse, knitr, kableExtra, readxl,
        skimr, tidymodels, stargazer, broom, boot)
 
 # Now we take a closer look
+
+# distribution of wage
+
+#histograma de wage
+
+
+hist_wage <- ggplot(geih2018, aes(x=wage)) + 
+  geom_histogram(aes(y=..density..),      
+                 binwidth=7000,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")  + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  labs(title = "Distribution - Wages", subtitle = "salary - real hourly") +
+  xlab("wages") +
+  theme_bw()+
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"))
+
+hist_wage
+
+ggsave("views/hist_wage.png")
+
+
+# Es un grafico muy concentrado en ingresos relativamente bajos, parece ser que
+# se acerca bastante a lo que por hora cobraría un mínimo mentras existen otros muy lejanos
+# No se aprecia muy bien
+
+#histograma log wage
+
+hist_logwage <- ggplot(geih2018, aes(x=lwage)) + 
+  geom_histogram(aes(y=..density..),      
+                 binwidth=.2,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")  + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  labs(title = "Distribution - Ln(wages)", subtitle = "salary - real hourly") +
+  xlab("Ln(wages)") +
+  theme_bw()+
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"))
+
+hist_logwage
+
+ggsave("views/hist_logwage.png")
