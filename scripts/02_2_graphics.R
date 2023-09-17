@@ -208,3 +208,28 @@ box_formal_wage
 ggsave("views/box_formal_wage.png")
 
 #Los formales ganan mas logicamente
+
+# Firm time distribution
+
+hist_firmtime <- geih2018 |> mutate(firm_time = firm_time/12) |># pasar a años
+  ggplot(aes(x=firm_time)) + 
+  geom_histogram(aes(y=..density..),      
+                 binwidth=1,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")  + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  xlab("Time in firm") +
+  labs(title = "Time in firm - distribution",
+       subtitle = "in years") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+hist_firmtime
+
+ggsave("views/hist_firmtime.png")
+
+#Concentrado en tiempos cortos y picos en cada 10 años- Puede obedecer ciclos laborales
+# y contratacion estandar de contratos (1-3 años ofrecen)
+
