@@ -6,10 +6,9 @@ rm(list = ls())
 #Cargo los paquetes
 require(pacman)
 p_load(rvest, tidyverse, knitr, kableExtra, readxl,
-       skim, tidymodels, stargazer, broom)
+       skimr, tidymodels, stargazer, broom, rio)
 
 tables <- list()
-
 
 # Los datos de la pagina se sacan de url con un formato especifico, son tablas html
 # Con formato de 
@@ -97,4 +96,7 @@ geih_clean <- geih %>%
   
   #Guardare los datos Paro no tener que correr el scrapping otra vez.
   write_csv(geih_clean, "stores/geih_clean.csv")
+  export(geih_clean, "stores/geih_clean.xlsx")
+  
+
   
