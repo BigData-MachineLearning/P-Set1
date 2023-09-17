@@ -255,3 +255,34 @@ scatt_wage_firmtime
 ggsave("views/scatt_wage_firmtime.png")
 
 #Parece ser que sí se relacionan positivamente
+
+
+#Educ Level and salary
+
+box_educ_wage <- geih2018 |> 
+  mutate(p6210 = as.character(p6210)) |>
+  mutate(completed = case_when(p6210 == 1 ~ "Ninguno",
+                               p6210 == 2 ~ "Preescolar",
+                               p6210 == 3 ~ "Basica Primaria (1o-5o)",
+                               p6210 == 4 ~ "Básica secundaria (6o - 9o)",
+                               p6210 == 5 ~ "Media (10o - 13o) ",
+                               p6210 == 6 ~ "Superior o universitaria",
+                               p6210 == 5 ~ " 	No sabe, no informa")) |>
+  ggplot(aes(x=p6210, y=lwage, fill = completed)) + 
+  geom_boxplot() +
+  ylab("Ln(wage)") +
+  xlab("Education") +
+  labs(title = "Education level vs Ln(wage)", 
+       subtitle = "salary - real hourly") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"),
+        legend.key.size = unit(.4, 'cm'),
+        legend.title = element_text(size=9))
+
+box_educ_wage
+
+ggsave("views/box_educ_wage.png")
+
+# Sube con la educacion, cambio mas notable superior, pero mayor Rango intercuartil
+
