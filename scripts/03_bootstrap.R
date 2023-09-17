@@ -68,7 +68,7 @@ ggplot() +
               alpha = 0.3) +
   xlim(agelims) +
   labs(title = "Degree-2 Polynomial") +
-  geom_vline(xintercept=max_age$t0[[1]],linetype=2) +
+  geom_vline(xintercept=max_age$t0[[1]], linetype=2) +
   theme_bw() +
   geom_line(aes(x = age_grid, y = se_bands[,"lower"]), col = "coral2", linetype = "dashed") + #lwr pred interval
   geom_line(aes(x = age_grid,y = se_bands[,"upper"]), col = "coral2", linetype = "dashed") #upr pred interval
