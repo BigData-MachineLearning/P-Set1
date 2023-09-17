@@ -72,3 +72,23 @@ ggsave("views/hist_logwage.png")
 # El logaritmo "normaliza" la distribucion pero seguimos viendo que hay una gran concentracion en
 # unos valores con colas bajas y lejanas a lo que es la media.
 
+# wage vs age
+
+scatt_wage_age <- ggplot(geih2018, aes(x=age, y=lwage)) +
+  geom_point(shape=1, color = "#FF6666", alpha = 0.5) +    # Use hollow circles
+  geom_smooth(method=lm,   # Add linear regression line
+              se=FALSE, color = "black")   + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) + 
+  labs(title = "Age vs Ln(wages)", subtitle = "salary - real hourly") +
+  ylab("Ln(wages)") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"))
+
+scatt_wage_age
+
+ggsave("views/scatt_wage_age.png")
+
+# Se observa una relacion un poco creciente en lso primeros años que se aplana despues de los 50,
+# mas adelante se detallará
