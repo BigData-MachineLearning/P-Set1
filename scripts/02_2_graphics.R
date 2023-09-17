@@ -92,3 +92,24 @@ ggsave("views/scatt_wage_age.png")
 
 # Se observa una relacion un poco creciente en lso primeros años que se aplana despues de los 50,
 # mas adelante se detallará
+
+
+#Hours worked distribution
+#histogram hours worked
+
+hist_hours <- ggplot(geih2018, aes(x=hoursWorkUsual)) + 
+  geom_histogram(aes(y=..density..),      
+                 binwidth=2.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")  + 
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_x_continuous(labels = function(x) format(x, scientific = FALSE)) + 
+  labs(title = "Distribution - Hours worked", subtitle = "Usual weekly") +
+  xlab("Hours worked") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"))
+
+hist_hours
+
+ggsave("views/hist_hours.png")
