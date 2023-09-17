@@ -68,3 +68,7 @@ hist_logwage <- ggplot(geih2018, aes(x=lwage)) +
 hist_logwage
 
 ggsave("views/hist_logwage.png")
+
+# El logaritmo "normaliza" la distribucion pero seguimos viendo que hay una gran concentracion en
+# unos valores con colas bajas y lejanas a lo que es la media.
+
