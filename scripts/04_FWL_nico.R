@@ -21,7 +21,7 @@ geih_clean <- geih_clean%>% mutate(ln_wage=log(wage),
 model <- lm(ln_wage~sex, data=geih_2018) #We run the model using only wage and sex. Sex is a 
 # dummy variable which is 0 if female, 1 if male. 
 
-stargazer(model, type = 'text') # Without further analysis, we can see that prelimniarily, being 
+stargazer(model, type = 'text') # Without further analysis, we can see that preliminarily, being 
 #male tends to increase you wage in about 4.5% 
 
 # At this point, we need to decide which method we're going to use to deal with the missing values.
