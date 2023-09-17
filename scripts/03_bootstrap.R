@@ -22,7 +22,6 @@ geih2018 <- read_csv("C:/Users/jorge_j24fcle/OneDrive/Documentos/universidad/NOV
 geih2018 <- geih2018 |>
   mutate(lwage = log(wage))
 
-
 #Corro el  modelo
 mod1 <- lm(lwage ~poly(age, 2, raw = TRUE), data = geih2018)
 
