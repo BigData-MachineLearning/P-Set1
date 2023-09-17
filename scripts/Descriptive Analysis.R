@@ -20,20 +20,21 @@ view(geih_clean)
 
 geih_clean <- geih_clean %>%
   mutate(lwage = log(wage))
+##renombrar p6210 -> educacion
 
 # Estadisticas descriptivas: 
 
 # 1. Estadisticas laborales: 
 
 Caract_laborales <- geih_clean[c("hoursWorkUsual","cuentaPropia","ocu","oficio","other_job",
-                                          "firm_time","sizeFirm", "cotPension", "regSalud")]
+                                          "firm_time","sizeFirm", "cotPension", "regSalud","formal")]
 
 stargazer(as.data.frame(Caract_laborales),
           type = "text",title = "Estadisticas Descriptivas Variables Laborales",
           digits = 1, out = "table.txt",
           covariate.labels = c("Horas usual", "Cuenta propia", "Ocupado", "Oficio",
                                "Otro trabajo","Tiempo en empresa","Tamaño de firma",
-                               "Pension", "Salud"))
+                               "Pension", "Salud","formal"))
 ### Muy pocos cuenta propia, todos ocupados,missings Salud
 # 2. Estadisticas sociodemograficas: 
 
@@ -159,11 +160,53 @@ ggplot(geih_clean, aes(x= firm_time, y= wage)) +
             # en la empresa actual. Heterogeneidad de los datos: Puede haber
             # trabajadores que lleven poco en la empresa con salarios altos 
             # y trabajadores que llevan mucho tiempo con salarios bajos. 
+            #Puede obedecer ciclos laborales
+             # y contratacion estandar de contratos (1-3 años ofrecen)
 
 # 5. Salario y Tamaño de la firma (wage vs firmsize)
-#### Inserte grafico
+box_firmsize_wage <- geih_clean |> 
+  mutate(sizeFirm = as.character(sizeFirm)) |>
+  mutate(firm_size = case_when(sizeFirm == 1 ~ "Self - employed",
+                               sizeFirm == 2 ~ "2-5 workers",
+                               sizeFirm == 3 ~ "6-10 workers",
+                               sizeFirm == 4 ~ "11-50",
+                               sizeFirm == 5 ~ ">50")) |> 
+  ggplot( aes(x=sizeFirm, y=lwage, fill = firm_size)) + 
+  geom_boxplot() +
+  theme_bw()+
+  labs(title = "Firm Size vs Ln(wage)", 
+       subtitle = "based on number of employees and salary - real hourly") +
+  xlab("Firm Size") +
+  ylab("Ln(wages)") +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+  ## Trabajar en firmas mas grandes 
+
+box_firmsize_wage
+
 # 6. Salario y Educacion (wage vs educacion)
-#### Inserte grafico
+box_educ_wage <- geih_clean |> 
+  mutate(p6210 = as.character(educacion)) |>
+  mutate(completed = case_when(educacion == 1 ~ "Ninguno",
+                               educacion == 2 ~ "Preescolar",
+                               educacion == 3 ~ "Basica Primaria (1o-5o)",
+                               educacion == 4 ~ "Básica secundaria (6o - 9o)",
+                               educacion == 5 ~ "Media (10o - 13o) ",
+                               educacion == 6 ~ "Superior o universitaria",
+                               educacion == 5 ~ " 	No sabe, no informa")) |>
+  ggplot(aes(x=educacion, y=lwage, fill = completed)) + 
+  geom_boxplot() +
+  ylab("Ln(wage)") +
+  xlab("Education") +
+  labs(title = "Education level vs Ln(wage)", 
+       subtitle = "salario real - hourly") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"),
+        legend.key.size = unit(.4, 'cm'),
+        legend.title = element_text(size=9))
+
+box_educ_wage  ## Salario aumenta entre mas educacion. 
 
 # Salarios por categoria:
 
@@ -178,7 +221,7 @@ ggplot(geih_clean, aes(x=cotPension, y=lwage)) +
             # altos -> Formalidad. Pensionados tienen ingresos bajos, 
             # pueden ser diferentes a pension. 
 
-# 2. Salario y salud (wage vs regSalud:
+# 2. Salario y salud (wage vs regSalud):
 ggplot(geih_clean, aes(x=regSalud, y=lwage)) +
   geom_bar(stat="identity") +
   labs(title = "wage vs regSalud",
@@ -190,7 +233,16 @@ ggplot(geih_clean, aes(x=regSalud, y=lwage)) +
             # Regimen especial puede estar contando sobre todo profesores, sus
             # salarios no son muy altos. 
 
-# 3. Salario y sexo (wage vs sex): 
+# 3. Salario y formalidad: 
+ggplot(geih_clean, aes(x=formal, y=lwage)) +
+  geom_bar(stat="identity") +
+  labs(title = "wage vs formal",
+       x = "Formal",
+       y = "Salario")+
+  theme_bw() +  scale_x_continuous(breaks = unique(geih_clean$formal))
+#### Trabajadores formales ganan mucho mas que informales. 
+
+# 4. Salario y sexo (wage vs sex): 
 
 ggplot(geih_clean, aes(x=sex, y=lwage)) +
   geom_bar(stat="identity") +
