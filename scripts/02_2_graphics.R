@@ -162,3 +162,29 @@ bar_firmsize
 ggsave("views/bar_firmsize.png")
 
 # al ser datos de Bogota, habra sobre todo enoresas gransesm micro empresas y cuentapropias
+
+#size firm vs salario
+
+box_firmsize_wage <- geih2018 |> 
+  mutate(sizeFirm = as.character(sizeFirm)) |>
+  mutate(firm_size = case_when(sizeFirm == 1 ~ "Self - employed",
+                               sizeFirm == 2 ~ "2-5 workers",
+                               sizeFirm == 3 ~ "6-10 workers",
+                               sizeFirm == 4 ~ "11-50",
+                               sizeFirm == 5 ~ ">50")) |> 
+  ggplot( aes(x=sizeFirm, y=lwage, fill = firm_size)) + 
+  geom_boxplot() +
+  theme_bw()+
+  labs(title = "Firm Size vs Ln(wage)", 
+       subtitle = "based on number of employees and salary - real hourly") +
+  xlab("Firm Size") +
+  ylab("Ln(wages)") +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+box_firmsize_wage
+
+ggsave("views/box_firmsize_wage.png")
+  
+
+#Personas que trabajan en empresa mas grande ganan mas en promedio
