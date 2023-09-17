@@ -188,3 +188,23 @@ ggsave("views/box_firmsize_wage.png")
   
 
 #Personas que trabajan en empresa mas grande ganan mas en promedio
+
+# formal vs wage
+
+box_formal_wage <- geih2018 |> 
+  mutate(formal = as.character(formal)) |>
+  ggplot( aes(x=formal, y=lwage, fill = formal)) + 
+  geom_boxplot() +
+  labs(title = "Formality vs Ln(wage)", 
+       subtitle = "(0 informal and 1 formal) and salary - real hourly") +
+  xlab("Formality") +
+  ylab("Ln(wages)") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+box_formal_wage
+
+ggsave("views/box_formal_wage.png")
+
+#Los formales ganan mas logicamente
