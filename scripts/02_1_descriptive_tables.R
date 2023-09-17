@@ -1,4 +1,4 @@
-### Punto 2 ### primera reg
+### Punto 2.1 ### 
 
 # A descriptive analysis of the data. At a minimum, you should include a descrip-
 # tive statistics table with its interpretation. However, I expect a deep analysis
