@@ -49,7 +49,7 @@ geih2$wage[is.na(geih2$wage)] <- mean(geih2$wage, na.rm = TRUE) # we set all mis
 
 geih3$wage[is.na(geih3$wage)] <- median(geih3$wage, na.rm = TRUE)
 
-#After some discussion, we decided to use the third approach for this regard.
+#After some discussion, we decided to use the first approach for this regard.
 
 geih_final <- geih1 #### Here we select the approach we would like to use.
 
@@ -97,6 +97,8 @@ reg3 <- lm(residualsreg2 ~ residualsreg1, data=geih_final)
 stargazer(model,reg3,type="text")
 
 #Let's to the FWL again, but using bootstrap.
+
+
 
 
 
