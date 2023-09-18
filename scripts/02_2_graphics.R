@@ -161,8 +161,9 @@ bar_firmsize
 
 ggsave("views/bar_firmsize.png")
 
-# al ser datos de Bogota, habra sobre todo enoresas gransesm micro empresas y cuentapropias
-
+# al ser datos de Bogota, habra sobre todo enoresas gransesm micro empresas y cuentapropias, 
+# En el resto del pais serían mas micro y cuenta propia que grandes
+ 
 #size firm vs salario
 
 box_firmsize_wage <- geih2018 |> 
@@ -307,5 +308,6 @@ box_educ_wage
 
 ggsave("views/box_educ_wage.png")
 
-# Sube con la educacion, cambio mas notable superior, pero mayor Rango intercuartil
+# Sube con la educacion, cambio mas notable superior,
+#pero mayor Rango intercuartil en educacion superior
 
