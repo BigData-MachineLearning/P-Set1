@@ -8,6 +8,8 @@ p_load(ggplot2, rio, tidyverse, skimr, caret, rvest, magrittr, openxlsx,
 
 geih_2018 <- read_csv("stores/geih_clean.csv")
 geih_clean <- read_csv("stores/geih_clean.csv")
+geih_clean <- geih_clean %>% 
+  select(!ln_wage)
 
 # At this point, we need to decide which method we're going to use to deal with the missing values.
 
@@ -29,7 +31,7 @@ data_with_missing <- geih_clean[is.na(geih_clean$wage), ]  # Rows with missing v
 data_without_missing <- geih_clean[!is.na(geih_clean$wage), ]  # Rows without missing values
 
 # Step 2: regression in without missing values. 
-reg_1 <-  lm(wage ~ ., data = geih_clean )
+reg_1 <- lm(wage ~ ., data = geih_clean )
 
 
 # Step 3: Usage of the predict command to predict the missing values.
