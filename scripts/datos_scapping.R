@@ -68,11 +68,11 @@ geih_clean <- geih %>%
   data_without_missing <- geih1[!is.na(geih1$wage), ]  # Rows without missing values
   
   # Step 2: regression en sector sin missings
-  reg_1 <-  lm(wage ~ ., data = geih1 )
+  reg_1 <-  lm(wage ~ ., data = geih1)
   
   
   # Step 3: Uso el predict para predecir faltantes
-  predicted_values <- predict(reg_1, newdata = data_with_missing)
+  predicted_values <- predict(reg_1, newdata = data_with_missing, na.rm = TRUE)
   
   # Step 4: imputo los predichos
   geih1[is.na(geih1$wage), "wage"] <- predicted_values
