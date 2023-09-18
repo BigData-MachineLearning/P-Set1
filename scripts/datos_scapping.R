@@ -47,8 +47,8 @@ geih_clean <- geih %>%
   rename(wage=y_salary_m_hu,
          parentesco = p6050, 
          other_job = p7040,
-         firm_time = p6426)
-  mutate(age2=age*age, ln_salario=log(wage))
+         firm_time = p6426) |>
+  mutate(age2=age*age, ln_wage=log(wage))
 
   #Meto en data frame
   
@@ -56,16 +56,12 @@ geih_clean <- geih %>%
   
   #Manejo de missings
   
-  
-  
   # Tenemos 6650 missing en mi variable de interes
   
   geih1 <- geih_clean
   geih2 <- geih_clean
   geih3 <- geih_clean
   # Approach 1: imputar con predict
-  
-  
   
   # Step 1: Dividir en datos con missing y sin missing
   data_with_missing <- geih1[is.na(geih1$wage), ]  # Rows with missing values
@@ -90,13 +86,23 @@ geih_clean <- geih %>%
   geih3$wage[is.na(geih3$wage)] <- median(geih3$wage, na.rm = TRUE)
   
   # Revisamos el proceso 
-  colSums(is.na(geih1)) # de 6650 a 837
+  colSums(is.na(geih1)) # de 6650 a 837 quito los que son missings
+  
   colSums(is.na(geih2)) # de 6650 a 0
+  
   colSums(is.na(geih3)) # de 6650 a 0
   
+  
   #Guardare los datos Paro no tener que correr el scrapping otra vez.
-  write_csv(geih_clean, "stores/geih_clean.csv")
-  export(geih_clean, "stores/geih_clean.xlsx")
+  
+  export(geih, "stores/geih_complete.csv") #complete scrapped element
+  export(geih_clean, "stores/geih_clean.csv") #selected variables and lnwage
+
+  export(geih1, "stores/geih_guess.csv") # geih with predicted NA
+  export(geih2, "stores/geih_mean.csv") # mean in NA
+  export(geih3, "stores/geih_median.csv") #median in NA
+    
+  
   
 
   
