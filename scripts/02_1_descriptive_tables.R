@@ -30,7 +30,7 @@ ingresos <- geih2018[c("wage", "iof1", "iof2", "iof6")]
 
 stargazer(as.data.frame(ingresos), 
           type = "text",title="Descriptive statistics - Variables ingresos", 
-          digits=1, out="table2.txt",
+          digits=1, out="views/table1_1.htm",
           covariate.labels=c("salary - real hourly (usual)", 
                              "Intereses y dividendos por inversiones", 
                              "Pensiones y jubilaciones", "Arriendos"))
@@ -41,7 +41,7 @@ sociodem <- geih2018[c("age", "p6210", "sex", "estrato1")]
 
 stargazer(as.data.frame(sociodem), 
           type = "text", title="Descriptive statistics Variables sociodemográficas",
-          digits=1, out="table2.txt",
+          digits=1, out="views/table1_2.htm",
           covariate.labels=c("edad", "educacion", 
                              "sexo", "estrato"))
 
@@ -52,7 +52,7 @@ laboral <- geih2018[c("cotPension", "regSalud", "cuentaPropia", "formal", "hours
 
 stargazer(as.data.frame(laboral),
           type = "text",  title="Descriptive statistics Variables laborales", 
-          digits=1, out="table2.txt",
+          digits=1, out="views/table1_3.htm",
           covariate.labels=c("pension", "salud", "cuenta propia", "formal", 
                              "horas usual", "oficio",  "Tiempo en empresa", 
                              "tamaño firma", " other job" ))

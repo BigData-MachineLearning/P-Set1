@@ -209,6 +209,29 @@ ggsave("views/box_formal_wage.png")
 
 #Los formales ganan mas logicamente
 
+
+# sex vs wage
+box_sex_wage <- 
+
+box_sex_wage <- geih2018 |>
+  mutate(sex = as.character(sex)) |>
+  ggplot( aes(x=sex, y=lwage, fill = sex)) + 
+  geom_boxplot() +
+  labs(title = "Sex vs Ln(wage)", 
+       subtitle = "(1 male - 0 female) and salary - real hourly") +
+  xlab("Sex") +
+  ylab("Ln(wages)") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0")) 
+
+box_sex_wage
+ggsave("views/box_sex_wage.png")
+
+#### 1 male, 0 female. Breacha de genero minima.
+
+
+
 # Firm time distribution
 
 hist_firmtime <- geih2018 |> mutate(firm_time = firm_time/12) |># pasar a años

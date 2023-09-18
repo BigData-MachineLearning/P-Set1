@@ -60,17 +60,27 @@ se_bands <- cbind("upper" = preds$fit+1.96*summary(mod1)$sigma,
                  "lower" = preds$fit-1.96*summary(mod1)$sigma)
 se_bands
 #Grafica
-ggplot() +
+age_wage1 <- ggplot() +
   geom_line(aes(x = age_grid, y = preds$fit), color = "black") +
   geom_ribbon(aes(x = age_grid, 
                   ymin = se_bands[,"lower"], 
                   ymax = se_bands[,"upper"]), 
               alpha = 0.3) +
   xlim(agelims) +
-  labs(title = "Degree-2 Polynomial") +
+  labs(title = "Age vs predicted Ln(wages)",
+       subtitle = "in years and salary - real hourly") +
+  xlab("age") +
+  ylab("predicted Ln(wages)")+
   geom_vline(xintercept=max_age$t0[[1]], linetype=2) +
   theme_bw() +
-  geom_line(aes(x = age_grid, y = se_bands[,"lower"]), col = "coral2", linetype = "dashed") + #lwr pred interval
-  geom_line(aes(x = age_grid,y = se_bands[,"upper"]), col = "coral2", linetype = "dashed") #upr pred interval
+  geom_line(aes(x = age_grid, y = se_bands[,"lower"]), 
+            col = "coral2", linetype = "dashed") + #lwr pred interval
+  geom_line(aes(x = age_grid,y = se_bands[,"upper"]), 
+            col = "coral2", linetype = "dashed") + #upr pred interval
+  theme(plot.title = element_text(size = 20) , 
+        plot.subtitle = element_text(size = 12, color = "#a0a0a0"))
 
+age_wage1
+
+ggsave("views/age_wage1.png")
 summary(mod1)
