@@ -50,10 +50,7 @@ geih3$wage[is.na(geih3$wage)] <- median(geih3$wage, na.rm = TRUE)
 
 #After some discussion, we decided to use the third approach for this regard.
 
-geih_final <- geih1
-
-
-#Let's do bootstrap:
+geih_final <- geih1 #### Here we select the approach we would like to use.
 
 geih_final <- geih_final%>% mutate(ln_wage=log(wage),
                                  female=case_when(sex==1~0,
@@ -65,7 +62,6 @@ model <- lm(ln_wage~female, data=geih_final) #We run the model using only wage a
 # dummy variable which is 1 if female, 0 if male. 
 
 stargazer(model, type = 'text')
-
 
 
 # Now, let's apply the FWL theorem.
