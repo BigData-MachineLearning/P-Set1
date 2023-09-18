@@ -210,7 +210,7 @@ loocv_preds <- vector("numeric", length = nrow(geih_guess))
 
 for (i in seq_len(nrow(geih_guess))) {
   loo_data <- geih_guess[-i, ]
-  loo_fit <- wf4 %>% fit(data = loo_data)
+  loo_fit <- wf6 %>% fit(data = loo_data)
   pred <- predict(loo_fit, new_data = slice(geih_guess, i))$.pred
   loocv_preds[i] <- pred
 }
