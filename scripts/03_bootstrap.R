@@ -26,8 +26,8 @@ geih2018 <- geih2018 |>
 mod1 <- lm(lwage ~poly(age, 2, raw = TRUE), data = geih2018)
 
 #Tabla
-stargazer(mod1, type = 'text')
-
+stargazer(mod1, type = 'text', dep.var.labels="Ln(wages) - salary - real hourly",
+covariate.labels=c("Age","Age2"), out="views/age_wage1.htm")
 #boostraap CI para max age
 
 set.seed(123)
