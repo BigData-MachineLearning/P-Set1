@@ -101,7 +101,34 @@ reg3 <- lm(residualsreg2 ~ residualsreg1, data=geih_final)
 stargazer(model,reg3,type="text")
 
 #Let's to the FWL again, but using bootstrap.
+set.seed(123)  
+modelo_boot <- function(data, index) {
+  f <- lm(female ~ poly(age, 2, raw = TRUE) + parentesco + p6210 + other_job +
+            estrato1 + cotPension + regSalud + cuentaPropia + formal +
+            poly(hoursWorkUsual, 2, raw = TRUE) + oficio + firm_time +
+            sizeFirm + iof1 + iof2 + iof6, data = data, subset = index)
+  coefs <- f$coefficients
+  
+  residuales <- resid(f)
+  
+  f2 <- lm(ln_wage ~ poly(age, 2, raw = TRUE) + parentesco + p6210 + other_job +
+             estrato1 + cotPension + regSalud + cuentaPropia + formal +
+             poly(hoursWorkUsual, 2, raw = TRUE) + oficio + firm_time +
+             sizeFirm + iof1 + iof2 + iof6, data = data, subset = index)
+  coefs2 <- f2$coefficients
+  
+  residuales2 <- resid(f2)
+  
+  f3 <- lm(residuales2 ~ residuales, data = data, subset = index)
+  
+  return(coef(f3))
+  #residuales_ponderados <- residuales / sqrt(weights)
+  
+  #return(list(coefs = coefs, residuales_ponderados = residuales_ponderados))
+}
 
+bootstrap_results <- boot(geih_final,modelo_boot, R=1000)
+bootstrap_results
 
 
 
