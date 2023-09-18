@@ -39,6 +39,7 @@ predicted_values <- predict(reg_1, newdata = data_with_missing)
 geih1[is.na(geih1$wage), "wage"] <- predicted_values # by now, we have reduced the missing values up
 # to 837.
 geih1 <- geih1 %>% filter(!is.na(wage)& wage>0)
+export(geih1, "stores/geih_guess.csv")
 
 ############## Approach 2: Using mean:###############
 
