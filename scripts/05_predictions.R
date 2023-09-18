@@ -204,7 +204,7 @@ loocv_rmse1 <- rmse(temp, truth = ...1, estimate = ...2)
 
 loocv_rmse1
 
-# LOOCV Modelo 4
+# LOOCV Modelo 6
 
 loocv_preds <- vector("numeric", length = nrow(geih_guess))
 
