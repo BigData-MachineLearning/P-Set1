@@ -12,10 +12,16 @@ geih_clean <- geih_clean %>%
   mutate(female= case_when(sex ==1 ~0, sex==0~1))
 
 
-##Camos a imputar mediana por cola a la derecha
+##Mediana
 geih_clean$wage[is.na(geih_clean$wage)] <- median(geih_clean$wage, na.rm = TRUE)
 
 colSums(is.na(geih_clean))
 
 write.xlsx(geih_clean, "geih_mediana")
 
+##Median
+geih_clean$wage[is.na(geih_clean$wage)] <- mean(geih_clean$wage, na.rm = TRUE)
+
+colSums(is.na(geih_clean))
+
+write.xlsx(geih_clean, "geih_media")

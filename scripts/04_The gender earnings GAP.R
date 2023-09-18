@@ -24,7 +24,7 @@ view(geih_clean)
 
 # log(w) = B1 + B2Female + u
 
-# where F emale is an indicator that takes one if the individual in the sample is
+# where Female is an indicator that takes one if the individual in the sample is
 # identified as female.
 
 geih_clean <- geih_clean %>%
@@ -79,9 +79,7 @@ modelo_5 <- lm(residuales_mod_4 ~ residuales_mod_3, data = geih_final)
 stargazer(modelo_5, type = "text")
 
 
-
-
-### FWL - Boostrap
+# 2. FWL - Boostrap
 
 
 
