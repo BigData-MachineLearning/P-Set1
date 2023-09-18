@@ -38,6 +38,7 @@ predicted_values <- predict(reg_1, newdata = data_with_missing)
 # Step 4: Add the predictions.
 geih1[is.na(geih1$wage), "wage"] <- predicted_values # by now, we have reduced the missing values up
 # to 837.
+geih1 <- geih1 %>% filter(!is.na(wage)& wage>0)
 
 ############## Approach 2: Using mean:###############
 
@@ -95,7 +96,7 @@ reg3 <- lm(residualsreg2 ~ residualsreg1, data=geih_final)
 
 stargazer(model,reg3,type="text")
 
-#Let's to de FWL again, but using bootstrap.
+#Let's to the FWL again, but using bootstrap.
 
 
 
