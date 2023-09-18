@@ -130,5 +130,62 @@ modelo_boot <- function(data, index) {
 bootstrap_results <- boot(geih_final,modelo_boot, R=1000)
 bootstrap_results
 
+##Graph
+#boostraap CI para max age
+set.seed(123)
+confi_age <- function(data, index){
+  f <- lm(ln_wage ~ poly(age, 2, raw = TRUE)+ female + age*female, data = data, subset = index)
+  coefs <- f$coefficients
+  b1<-coefs[2]
+  b2<-coefs[3] 
+  b3<-coefs[4]
+  b4<-coefs[6]
+  
+  max_agef <- -((b1+b4)/(2*b2))
+  
+  max_agem <- -(b1/(2*b2))
+  
+  max_ages <- c(max_agef,max_agem)
+  return(max_ages)
+}
 
 
+max_age <-boot(geih_final, confi_age, R = 1000)
+max_age
+
+mod1<-lm(ln_wage ~ poly(age, 2, raw = TRUE)+ female + age*female, data = geih_final)
+
+agelims = geih_final %>%
+  select(age) %>%
+  range
+
+# genero edades para graficar el modleo
+age_grid <- seq(from = min(agelims), to = max(agelims))
+mujer <- rep(1,length(age_grid))
+hombre <- rep(0,length(age_grid))
+# Genero predicciones para edades generadas para graficar mi modelo
+
+predsf <- predict(mod1, newdata = list(age = age_grid,female=mujer), se = TRUE)
+
+predsm <- predict (mod1, newdata = list(age = age_grid,female=hombre), se = TRUE)
+
+# CI modelo predicho
+se_bands_f <- cbind("upper" = predsf$fit+1.96*summary(mod1)$sigma, 
+                  "lower" = predsf$fit-1.96*summary(mod1)$sigma)
+se_bands_m <- cbind("upper" = predsm$fit+1.96*summary(mod1)$sigma, 
+                    "lower" = predsm$fit-1.96*summary(mod1)$sigma)
+
+#Grafica
+ggplot() +
+  geom_line(aes(x = age_grid, y = predsf$fit), color = "#fe6a6a") +
+  geom_line(aes(x = age_grid, y = predsm$fit), color = "#6a9dfe") +
+  xlim(agelims) +
+  labs(title = "Degree-2 Polynomial") +
+  geom_vline(xintercept=max_age$t0[[1]], linetype=2) +
+  theme_bw() +
+  geom_line(aes(x = age_grid, y = se_bands_f[,"lower"]), col = "#fe6a6a", linetype = "dashed") + #lwr pred interval
+  geom_line(aes(x = age_grid,y = se_bands_f[,"upper"]), col = "#fe6a6a", linetype = "dashed") + #upr pred interval 
+  geom_line(aes(x = age_grid, y = se_bands_m[,"lower"]), col = "#6a9dfe", linetype = "dashed") + #lwr pred interval
+  geom_line(aes(x = age_grid,y = se_bands_m[,"upper"]), col = "#6a9dfe", linetype = "dashed") #upr pred interval
+
+summary(mod1)
