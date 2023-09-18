@@ -1,8 +1,8 @@
 # We are going to develope the FWL method with and without bootstrap in this R script:
 rm(list = ls())
 require(pacman)
-p_load(rvest, tidyverse, knitr, kableExtra, readxl,
-       skimr, tidymodels, stargazer, broom, rio)
+p_load(ggplot2, rio, tidyverse, skimr, caret, rvest, magrittr, openxlsx,
+       rstudioapi, readxl, openxlsx, stargazer, boot, car, flextable)
 
 # First, we need our data:
 
@@ -49,7 +49,7 @@ geih2$wage[is.na(geih2$wage)] <- mean(geih2$wage, na.rm = TRUE) # we set all mis
 
 geih3$wage[is.na(geih3$wage)] <- median(geih3$wage, na.rm = TRUE)
 
-#After some discussion, we decided to use the third approach for this regard.
+#After some discussion, we decided to use the first approach for this regard.
 
 geih_final <- geih1 #### Here we select the approach we would like to use.
 
@@ -57,7 +57,7 @@ geih_final <- geih_final%>% mutate(ln_wage=log(wage),
                                  female=case_when(sex==1~0,
                                                   sex==0~1))
 
-#We now run the model as proposed:
+#A. We now run the model as proposed:
 
 model <- lm(ln_wage~female, data=geih_final) #We run the model using only wage and female. Female is a 
 # dummy variable which is 1 if female, 0 if male. 
@@ -65,7 +65,8 @@ model <- lm(ln_wage~female, data=geih_final) #We run the model using only wage a
 stargazer(model, type = 'text')
 
 
-# Now, let's apply the FWL theorem.
+
+#B. Now, let's apply the FWL theorem.
 
 #1. Using our variable of interest and some controls.
 
@@ -97,7 +98,6 @@ reg3 <- lm(residualsreg2 ~ residualsreg1, data=geih_final)
 stargazer(model,reg3,type="text")
 
 #Let's to the FWL again, but using bootstrap.
-
 
 
 
