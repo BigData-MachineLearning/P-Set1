@@ -17,7 +17,7 @@ p_load(rvest, tidyverse, knitr, kableExtra, readxl,
 
 
 # cargo csv
-geih2018 <- read_csv("C:/Users/jorge_j24fcle/OneDrive/Documentos/universidad/NOVENO SEMESTRE/BIG DATA/geih_clean.csv")
+geih2018 <- read_csv("stores/geih_clean.csv")
 
 geih2018 <- geih2018 |>
   mutate(lwage = log(wage))
